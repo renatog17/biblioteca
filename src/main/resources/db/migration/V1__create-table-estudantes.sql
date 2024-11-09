@@ -1,0 +1,5 @@
+CREATE TABLE estudantes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    matricula VARCHAR(255) NOT NULL,
+    nome VARCHAR(255) NOT NULL
+);
