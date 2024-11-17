@@ -1,11 +1,14 @@
 package com.renato.biblioteca.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity(name = "livros")
 public class Livro {
@@ -16,7 +19,8 @@ public class Livro {
 	private String isbn;
 	private String titulo;
 	private String autor;
-	
+	@OneToMany(mappedBy = "livro")
+	private List<EstudanteLivro> emprestimos = new ArrayList<>();
 	
 	public Livro() {
 		super();
