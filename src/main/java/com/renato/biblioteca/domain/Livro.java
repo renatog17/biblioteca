@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.renato.biblioteca.controller.dto.PostLivroDTO;
+import com.renato.biblioteca.controller.dto.PutLivroDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +33,13 @@ public class Livro {
 
 	public Livro(String isbn, String titulo, String autor) {
 		super();
+		this.isbn = isbn;
+		this.titulo = titulo;
+		this.autor = autor;
+	}
+
+
+	public Livro(PostLivroDTO postLivroDTO) {
 		this.isbn = isbn;
 		this.titulo = titulo;
 		this.autor = autor;
@@ -98,6 +108,16 @@ public class Livro {
 	@Override
 	public String toString() {
 		return "Livro [id=" + id + ", isbn=" + isbn + ", titulo=" + titulo + ", autor=" + autor + "]";
+	}
+
+
+	public void atualizar(PutLivroDTO putLivroDTO) {
+		if(putLivroDTO.autor()!=null)
+			this.autor = putLivroDTO.autor();
+		if(putLivroDTO.titulo()!=null)
+			this.titulo = putLivroDTO.titulo();
+		if(putLivroDTO.isbn()!=null)
+			this.isbn = putLivroDTO.isbn();
 	}
 	
 	

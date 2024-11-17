@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.renato.biblioteca.controller.dto.PostEstudanteDTO;
+import com.renato.biblioteca.controller.dto.PutEstudanteDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +36,11 @@ public class Estudante {
 		super();
 		this.matricula = matricula;
 		this.nome = nome;
+	}
+
+	public Estudante(PostEstudanteDTO postEstudanteDTO) {
+		this.matricula = postEstudanteDTO.matricula();
+		this.nome = postEstudanteDTO.nome();
 	}
 
 	public Long getId() {
@@ -79,6 +87,14 @@ public class Estudante {
 	@Override
 	public String toString() {
 		return "Estudante [id=" + id + ", matricula=" + matricula + ", nome=" + nome + "]";
+	}
+
+	public void atualizar(PutEstudanteDTO putEstudanteDTO) {
+		if(putEstudanteDTO.nome()!=null) 
+			this.nome = putEstudanteDTO.nome();
+		if(putEstudanteDTO.matricula()!=null)
+			this.matricula = putEstudanteDTO.matricula();
+		
 	}
 	
 	
