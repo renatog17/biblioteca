@@ -11,3 +11,7 @@ No contexto deste projeto, um **Estudante** pode pegar vários **Livros** empres
 - **Estudante**: Representa um estudante no sistema.
 - **Livro**: Representa um livro disponível para empréstimo.
 - **EstudanteLivro**: Representa o relacionamento de empréstimo entre **Estudante** e **Livro**, contendo atributos como a data de início do empréstimo e um campo booleano para indicar se o livro foi devolvido.
+
+## FlyWay Migration
+
+Este projeto conta com o uso de migrations, para que seja possível reastrear todas as mudanças efetuadas em sua construção.
