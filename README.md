@@ -14,4 +14,4 @@ No contexto deste projeto, um **Estudante** pode pegar vários **Livros** empres
 
 ## FlyWay Migration
 
-Este projeto conta com o uso de migrations, para que seja possível reastrear todas as mudanças efetuadas em sua construção.
+O projeto utiliza o Flyway para gerenciar as migrações do banco de dados de forma estruturada e automatizada. Cada alteração no esquema é versionada e armazenada em scripts SQL, garantindo rastreabilidade e consistência em diferentes ambientes.
