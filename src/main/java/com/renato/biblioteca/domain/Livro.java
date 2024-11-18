@@ -40,9 +40,9 @@ public class Livro {
 
 
 	public Livro(PostLivroDTO postLivroDTO) {
-		this.isbn = isbn;
-		this.titulo = titulo;
-		this.autor = autor;
+		this.isbn = postLivroDTO.isbn();
+		this.titulo = postLivroDTO.titulo();
+		this.autor = postLivroDTO.autor();
 	}
 
 

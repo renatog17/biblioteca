@@ -29,10 +29,13 @@ public class SecurityConfigurations {
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 						.requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+						.requestMatchers("/h2-console/**").permitAll()
 //						.requestMatchers(HttpMethod.GET, "/categoria").hasRole("ADMIN")
 //						.requestMatchers(HttpMethod.GET, "/categoria/*").hasRole("ADMIN")
 						.anyRequest().authenticated()
 						)
+				//a linha abaixo é necessária para que o h2 possa funcionar
+				.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()))
 				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}

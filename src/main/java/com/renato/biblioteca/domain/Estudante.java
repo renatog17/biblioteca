@@ -6,17 +6,19 @@ import java.util.Objects;
 
 import com.renato.biblioteca.controller.dto.PostEstudanteDTO;
 import com.renato.biblioteca.controller.dto.PutEstudanteDTO;
+import com.renato.biblioteca.security.domain.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 /**
  * 
  */
-@Entity
+@Entity(name = "estudantes")
 public class Estudante {
 
 	@Id
@@ -26,6 +28,8 @@ public class Estudante {
 	private String nome;
 	@OneToMany(mappedBy = "estudante")
 	private List<EstudanteLivro> emprestimos = new ArrayList<>();
+	@OneToOne
+	private User user;
 	
 	public Estudante() {
 		super();
