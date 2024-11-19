@@ -34,6 +34,9 @@ public class EstudanteController {
 		this.estudanteRepository = estudanteRepository;
 	}
 
+	//ao cadastrar um estudante, cadastrar tbm seu user.
+	//distribuir essas funcionalidades em services.
+	//se user vai ser cadastrado aqui e em user service, então colocar isso em um service
 	@PostMapping
 	@Transactional
 	public ResponseEntity<?> postEstudante(@RequestBody PostEstudanteDTO postEstudanteDTO, UriComponentsBuilder uriComponentsBuilder){
