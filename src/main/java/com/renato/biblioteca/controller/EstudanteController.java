@@ -3,7 +3,10 @@ package com.renato.biblioteca.controller;
 import java.net.URI;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,8 @@ import com.renato.biblioteca.controller.dto.PutEstudanteDTO;
 import com.renato.biblioteca.controller.dto.ReadEstudanteDTO;
 import com.renato.biblioteca.domain.Estudante;
 import com.renato.biblioteca.repositories.EstudanteRepository;
+import com.renato.biblioteca.security.domain.User;
+import com.renato.biblioteca.security.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -28,19 +33,28 @@ import jakarta.transaction.Transactional;
 public class EstudanteController {
 
 	private EstudanteRepository estudanteRepository;
+	private UserRepository userRepository;
 	
-	public EstudanteController(EstudanteRepository estudanteRepository) {
+	public EstudanteController(EstudanteRepository estudanteRepository, UserRepository userRepository) {
 		super();
 		this.estudanteRepository = estudanteRepository;
+		this.userRepository = userRepository;
 	}
 
-	//ao cadastrar um estudante, cadastrar tbm seu user.
-	//distribuir essas funcionalidades em services.
-	//se user vai ser cadastrado aqui e em user service, então colocar isso em um service
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> postEstudante(@RequestBody PostEstudanteDTO postEstudanteDTO, UriComponentsBuilder uriComponentsBuilder){
+	public ResponseEntity<?> postEstudante(@RequestBody PostEstudanteDTO postEstudanteDTO, UriComponentsBuilder uriComponentsBuilder,
+			Authentication authentication){
+		
+		User user = (User) userRepository.findByLogin(authentication.getName());
+		
+		Optional<Estudante> findByUserId = estudanteRepository.findByUserId(user.getId());
+		if(findByUserId.isPresent()) {
+			return ResponseEntity.status(HttpStatusCode.valueOf(409)).build(); 
+		}
+		
 		Estudante estudante = new Estudante(postEstudanteDTO);
+		estudante.setUser(user);
 		estudanteRepository.save(estudante);
 		URI uri = uriComponentsBuilder.path("/estudantes/{id}").buildAndExpand(estudante.getId()).toUri();
 		return ResponseEntity.created(uri).body(new ReadEstudanteDTO(estudante));

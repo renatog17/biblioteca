@@ -18,6 +18,9 @@ import jakarta.persistence.OneToOne;
 /**
  * 
  */
+/**
+ * 
+ */
 @Entity(name = "estudantes")
 public class Estudante {
 
@@ -45,6 +48,15 @@ public class Estudante {
 	public Estudante(PostEstudanteDTO postEstudanteDTO) {
 		this.matricula = postEstudanteDTO.matricula();
 		this.nome = postEstudanteDTO.nome();
+	}
+
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Long getId() {
