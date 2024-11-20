@@ -15,3 +15,12 @@ No contexto deste projeto, um **Estudante** pode pegar vários **Livros** empres
 ## 🛠️ Flyway Migration
 
 O projeto utiliza o Flyway para gerenciar as migrações do banco de dados de forma estruturada e automatizada. Cada alteração no esquema é versionada e armazenada em scripts SQL 📜, garantindo rastreabilidade e consistência em diferentes ambientes 🌐.
+
+## 🔒 Spring Security
+
+A aplicação utiliza **Spring Security** para gerenciar autenticação e autorização, garantindo que os recursos do sistema sejam acessados apenas por usuários autorizados. A seguir, algumas funcionalidades implementadas:
+
+- **Autenticação baseada em usuários**: A aplicação utiliza um banco de dados para armazenar as credenciais dos usuários e as roles (funções) associadas.
+- **Autorização por roles**: Apenas usuários com permissões específicas podem acessar determinados endpoints.
+- **Proteção de endpoints**: Todos os endpoints são protegidos por padrão, sendo necessário configurar quais rotas são públicas ou restritas.
+- **Configuração personalizada**: Um arquivo de configuração gerencia as regras de segurança, como login, logout e permissões.
