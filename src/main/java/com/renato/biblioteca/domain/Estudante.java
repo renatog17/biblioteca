@@ -31,6 +31,8 @@ public class Estudante {
 	private String nome;
 	@OneToMany(mappedBy = "estudante")
 	private List<EstudanteLivro> emprestimos = new ArrayList<>();
+	@OneToMany(mappedBy = "multa")
+	private List<Multa> multas = new ArrayList<>();
 	@OneToOne
 	private User user;
 	

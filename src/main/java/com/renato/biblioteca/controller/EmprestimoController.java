@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +26,7 @@ public class EmprestimoController {
 	private EstudanteRepository estudanteRepository;
 	private LivroRepository livroRepository;
 	private EstudanteLivroRepository estudanteLivroRepository;
-	
-	
+
 	public EmprestimoController(EstudanteRepository estudanteRepository, LivroRepository livroRepository,
 			EstudanteLivroRepository estudanteLivroRepository) {
 		super();
@@ -35,25 +35,41 @@ public class EmprestimoController {
 		this.estudanteLivroRepository = estudanteLivroRepository;
 	}
 
+	// antes de tudo, tem que ser verificado se há um emprestimo ativo
 
 	@PostMapping
-	public ResponseEntity<?> realizarEmprestimo(@RequestBody PostEmprestimoDTO emprestimoDTO){
-		
+	public ResponseEntity<?> realizarEmprestimo(@RequestBody PostEmprestimoDTO emprestimoDTO) {
+
 		Optional<Estudante> optionalEstudante = estudanteRepository.findById(emprestimoDTO.idEstudante());
 		Optional<Livro> optionalLivro = livroRepository.findById(emprestimoDTO.idLivro());
-		
-		if(optionalEstudante.isEmpty())
+
+		if (optionalEstudante.isEmpty())
 			return ResponseEntity.notFound().build();
-		if(optionalLivro.isEmpty())
+		if (optionalLivro.isEmpty())
 			return ResponseEntity.notFound().build();
-		
-		//fazer outras verificações
-		
-		EstudanteLivro estudanteLivro = new EstudanteLivro(optionalEstudante.get(), optionalLivro.get(), LocalDateTime.now(), false);
+
+		// fazer outras verificações:
+		// caso haja emprestimo ativo não permitir realizar emprestimo
+		// caso haja multa, não permitir realizar emprestimo
+		// por padrão, o emprestimo pode durar no máximo 15 dias, após isso, serão
+		// gerados dias de multa
+		// a tabela multa será então criada
+
+		EstudanteLivro estudanteLivro = new EstudanteLivro(optionalEstudante.get(), optionalLivro.get(),
+				LocalDateTime.now(), false);
 		estudanteLivroRepository.save(estudanteLivro);
-		
-		
-		
+		return ResponseEntity.ok(new ReadEmprestimoDTO(estudanteLivro));
+	}
+
+	@PostMapping("/devolucao/{id}")
+	public ResponseEntity<?> realizarDevolucao(@PathVariable Long id) {
+		Optional<EstudanteLivro> optionalEstudanteLivro = estudanteLivroRepository.findById(id);
+		if (optionalEstudanteLivro.isEmpty())
+			return ResponseEntity.notFound().build();
+		EstudanteLivro estudanteLivro = optionalEstudanteLivro.get();
+		if (estudanteLivro.getFoiDevolvido())
+			return ResponseEntity.noContent().build();
+		estudanteLivro.setFoiDevolvido(true);
 		return ResponseEntity.ok(new ReadEmprestimoDTO(estudanteLivro));
 	}
 }
