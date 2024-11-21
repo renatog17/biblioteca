@@ -1,6 +1,6 @@
 package com.renato.biblioteca.controller.dto;
 
-public record EmprestimoDTO(
+public record PostEmprestimoDTO(
 		Long idLivro,
 		Long idEstudante) {
 

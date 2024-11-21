@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.renato.biblioteca.controller.dto.EmprestimoDTO;
+import com.renato.biblioteca.controller.dto.PostEmprestimoDTO;
+import com.renato.biblioteca.controller.dto.ReadEmprestimoDTO;
 import com.renato.biblioteca.domain.Estudante;
 import com.renato.biblioteca.domain.EstudanteLivro;
 import com.renato.biblioteca.domain.Livro;
@@ -17,14 +19,25 @@ import com.renato.biblioteca.repositories.EstudanteRepository;
 import com.renato.biblioteca.repositories.LivroRepository;
 
 @RestController
-@RequestMapping("/emrpestimos")
+@RequestMapping("/emprestimos")
 public class EmprestimoController {
 
 	private EstudanteRepository estudanteRepository;
 	private LivroRepository livroRepository;
 	private EstudanteLivroRepository estudanteLivroRepository;
 	
-	public ResponseEntity<?> realizarEmprestimo(@RequestBody EmprestimoDTO emprestimoDTO){
+	
+	public EmprestimoController(EstudanteRepository estudanteRepository, LivroRepository livroRepository,
+			EstudanteLivroRepository estudanteLivroRepository) {
+		super();
+		this.estudanteRepository = estudanteRepository;
+		this.livroRepository = livroRepository;
+		this.estudanteLivroRepository = estudanteLivroRepository;
+	}
+
+
+	@PostMapping
+	public ResponseEntity<?> realizarEmprestimo(@RequestBody PostEmprestimoDTO emprestimoDTO){
 		
 		Optional<Estudante> optionalEstudante = estudanteRepository.findById(emprestimoDTO.idEstudante());
 		Optional<Livro> optionalLivro = livroRepository.findById(emprestimoDTO.idLivro());
@@ -40,6 +53,7 @@ public class EmprestimoController {
 		estudanteLivroRepository.save(estudanteLivro);
 		
 		
-		return ResponseEntity.ok(estudanteLivro);
+		
+		return ResponseEntity.ok(new ReadEmprestimoDTO(estudanteLivro));
 	}
 }
