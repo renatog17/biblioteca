@@ -2,10 +2,16 @@ package com.renato.biblioteca.service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.renato.biblioteca.domain.EstudanteLivro;
+import com.renato.biblioteca.service.strategy.ValidacaoEmprestimo;
+import com.renato.biblioteca.service.strategy.ValidarSeHaEmprestimoAtivo;
+import com.renato.biblioteca.service.strategy.ValidarSeHaMulta;
+import com.renato.biblioteca.service.strategy.VerificarDisponibilidadeDoLivro;
 
 @Service
 public class EmprestimoService {
@@ -21,6 +27,13 @@ public class EmprestimoService {
 	}
 	
 	public void validarEmprestimo() {
+		ValidacaoEmprestimo validarSeHaEmprestimoAtivo = new ValidarSeHaEmprestimoAtivo();
+		ValidacaoEmprestimo validarSeHaMulta = new ValidarSeHaMulta();
+		ValidacaoEmprestimo verificarDisponibilidadeDoLivro = new VerificarDisponibilidadeDoLivro();
 		
+		List<ValidacaoEmprestimo> validacoes = new ArrayList<ValidacaoEmprestimo>();
+		validacoes.add(verificarDisponibilidadeDoLivro);
+		validacoes.add(validarSeHaMulta);
+		validacoes.add(validarSeHaEmprestimoAtivo);
 	}
 }
