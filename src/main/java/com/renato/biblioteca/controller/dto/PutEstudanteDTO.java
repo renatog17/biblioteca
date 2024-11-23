@@ -1,7 +1,11 @@
 package com.renato.biblioteca.controller.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public record PutEstudanteDTO(
-		String matricula, 
+		@NotNull
+		String matricula,
+		@NotNull
 		String nome) {
 
 }
