@@ -19,4 +19,8 @@ public class EmprestimoService {
 	    	System.out.println();
 	    }
 	}
+	
+	public void validarEmprestimo() {
+		
+	}
 }

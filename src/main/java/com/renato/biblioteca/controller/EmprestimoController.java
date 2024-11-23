@@ -48,12 +48,8 @@ public class EmprestimoController {
 		if (optionalLivro.isEmpty())
 			return ResponseEntity.notFound().build();
 
-		// fazer outras verificações:
-		// caso haja emprestimo ativo não permitir realizar emprestimo
-		// caso haja multa, não permitir realizar emprestimo
 		// por padrão, o emprestimo pode durar no máximo 15 dias, após isso, serão
 		// gerados dias de multa
-		// a tabela multa será então criada
 
 		EstudanteLivro estudanteLivro = new EstudanteLivro(optionalEstudante.get(), optionalLivro.get());
 		estudanteLivroRepository.save(estudanteLivro);

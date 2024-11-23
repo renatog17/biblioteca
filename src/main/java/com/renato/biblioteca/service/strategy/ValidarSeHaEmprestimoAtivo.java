@@ -6,7 +6,7 @@ public class ValidarSeHaEmprestimoAtivo implements ValidacaoEmprestimo{
 
 	@Override
 	public boolean validar(EstudanteLivro estudanteLivro) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
