@@ -30,13 +30,12 @@ public class EstudanteLivro {
 		// TODO Auto-generated constructor stub
 	}
 
-	public EstudanteLivro(Estudante estudante, Livro livro, LocalDateTime dataHoraInicioEmprestimo,
-			Boolean foiDevolvido) {
+	public EstudanteLivro(Estudante estudante, Livro livro) {
 		super();
 		this.estudante = estudante;
 		this.livro = livro;
-		this.dataHoraInicioEmprestimo = dataHoraInicioEmprestimo;
-		this.foiDevolvido = foiDevolvido;
+		this.dataHoraInicioEmprestimo = LocalDateTime.now();
+		this.foiDevolvido = false;
 	}
 
 	public Long getId() {

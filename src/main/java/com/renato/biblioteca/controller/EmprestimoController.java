@@ -55,8 +55,7 @@ public class EmprestimoController {
 		// gerados dias de multa
 		// a tabela multa será então criada
 
-		EstudanteLivro estudanteLivro = new EstudanteLivro(optionalEstudante.get(), optionalLivro.get(),
-				LocalDateTime.now(), false);
+		EstudanteLivro estudanteLivro = new EstudanteLivro(optionalEstudante.get(), optionalLivro.get());
 		estudanteLivroRepository.save(estudanteLivro);
 		return ResponseEntity.ok(new ReadEmprestimoDTO(estudanteLivro));
 	}
