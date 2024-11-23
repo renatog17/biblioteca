@@ -69,6 +69,7 @@ public class EmprestimoController {
 		EstudanteLivro estudanteLivro = optionalEstudanteLivro.get();
 		if (estudanteLivro.getFoiDevolvido())
 			return ResponseEntity.noContent().build();
+		
 		estudanteLivro.setFoiDevolvido(true);
 		return ResponseEntity.ok(new ReadEmprestimoDTO(estudanteLivro));
 	}

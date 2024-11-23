@@ -16,7 +16,7 @@ public record ReadEmprestimoDTO(Long idEstudante,
 				estudanteLivro.getEstudante().getNome(),
 				estudanteLivro.getLivro().getId(),
 				estudanteLivro.getLivro().getTitulo(),
-				estudanteLivro.getData_hora_inicio_emprestimo(),
+				estudanteLivro.getDataHoraInicioEmprestimo(),
 				estudanteLivro.getFoiDevolvido());
 	}
 

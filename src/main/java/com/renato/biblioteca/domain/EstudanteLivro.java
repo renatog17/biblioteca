@@ -22,7 +22,7 @@ public class EstudanteLivro {
 	@ManyToOne
 	@JoinColumn(name = "livro_id")
 	private Livro livro;
-	private LocalDateTime data_hora_inicio_emprestimo;
+	private LocalDateTime dataHoraInicioEmprestimo;
 	private Boolean foiDevolvido;
 	
 	public EstudanteLivro() {
@@ -30,12 +30,12 @@ public class EstudanteLivro {
 		// TODO Auto-generated constructor stub
 	}
 
-	public EstudanteLivro(Estudante estudante, Livro livro, LocalDateTime data_hora_inicio_emprestimo,
+	public EstudanteLivro(Estudante estudante, Livro livro, LocalDateTime dataHoraInicioEmprestimo,
 			Boolean foiDevolvido) {
 		super();
 		this.estudante = estudante;
 		this.livro = livro;
-		this.data_hora_inicio_emprestimo = data_hora_inicio_emprestimo;
+		this.dataHoraInicioEmprestimo = dataHoraInicioEmprestimo;
 		this.foiDevolvido = foiDevolvido;
 	}
 
@@ -63,12 +63,12 @@ public class EstudanteLivro {
 		this.livro = livro;
 	}
 
-	public LocalDateTime getData_hora_inicio_emprestimo() {
-		return data_hora_inicio_emprestimo;
+	public LocalDateTime getDataHoraInicioEmprestimo() {
+		return dataHoraInicioEmprestimo;
 	}
 
-	public void setData_hora_inicio_emprestimo(LocalDateTime data_hora_inicio_emprestimo) {
-		this.data_hora_inicio_emprestimo = data_hora_inicio_emprestimo;
+	public void setDataHoraInicioEmprestimo(LocalDateTime dataHoraInicioEmprestimo) {
+		this.dataHoraInicioEmprestimo = dataHoraInicioEmprestimo;
 	}
 
 	public Boolean getFoiDevolvido() {
