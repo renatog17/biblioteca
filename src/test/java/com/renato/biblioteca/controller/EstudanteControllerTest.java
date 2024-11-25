@@ -1,14 +1,30 @@
 package com.renato.biblioteca.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.renato.biblioteca.controller.dto.PostEstudanteDTO;
+import com.renato.biblioteca.controller.dto.ReadEstudanteDTO;
+import com.renato.biblioteca.domain.Estudante;
+import com.renato.biblioteca.repositories.EstudanteRepository;
+import com.renato.biblioteca.security.domain.User;
+import com.renato.biblioteca.security.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -16,19 +32,43 @@ import jakarta.transaction.Transactional;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class EstudanteControllerTest {
 
-	@Autowired
-	private MockMvc mockMvc;
-	
-	@Autowired
-	private ObjectMapper objectMapper;
-	
-	public void testPostEstudante() {
-		//arrange
-		PostEstudanteDTO postEstudanteDTO = new PostEstudanteDTO("202401", "Aurora");
-		//act
-		//assert
-	}
+	@Mock
+    private EstudanteRepository estudanteRepository;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private Authentication authentication;
+
+    @InjectMocks
+    private EstudanteController estudanteController;
+
+    @Test
+    void testPostEstudante_Success() {
+        // Dados de entrada
+        PostEstudanteDTO postEstudanteDTO = new PostEstudanteDTO("123", "Renato");
+        User user = new User(); 
+        user.setId(1L);
+
+        Estudante estudante = new Estudante(postEstudanteDTO);
+        estudante.setId(1L);
+        estudante.setUser(user);
+
+        // Mockando comportamentos
+        when(authentication.getName()).thenReturn("user");
+        when(userRepository.findByLogin("user")).thenReturn(user);
+        when(estudanteRepository.findByUserId(1L)).thenReturn(Optional.empty());
+        when(estudanteRepository.save(any(Estudante.class))).thenReturn(estudante);
+
+        // Execução
+        ResponseEntity<?> response = estudanteController.postEstudante(postEstudanteDTO, UriComponentsBuilder.newInstance(), authentication);
+
+        // Verificações
+        assertEquals(201, response.getStatusCodeValue());
+        assertTrue(response.getBody() instanceof ReadEstudanteDTO);
+        verify(estudanteRepository, times(1)).save(any(Estudante.class));
+    }
 }
