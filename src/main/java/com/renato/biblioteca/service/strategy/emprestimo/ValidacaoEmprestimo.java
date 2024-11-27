@@ -1,4 +1,4 @@
-package com.renato.biblioteca.service.strategy;
+package com.renato.biblioteca.service.strategy.emprestimo;
 
 import com.renato.biblioteca.domain.Estudante;
 import com.renato.biblioteca.domain.Livro;

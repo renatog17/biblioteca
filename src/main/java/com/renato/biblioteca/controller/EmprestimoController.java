@@ -1,6 +1,5 @@
 package com.renato.biblioteca.controller;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ import com.renato.biblioteca.repositories.EstudanteLivroRepository;
 import com.renato.biblioteca.repositories.EstudanteRepository;
 import com.renato.biblioteca.repositories.LivroRepository;
 
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/emprestimos")

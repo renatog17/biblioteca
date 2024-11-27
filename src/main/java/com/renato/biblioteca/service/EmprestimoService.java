@@ -8,10 +8,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.renato.biblioteca.domain.EstudanteLivro;
-import com.renato.biblioteca.service.strategy.ValidacaoEmprestimo;
-import com.renato.biblioteca.service.strategy.ValidarSeHaEmprestimoAtivo;
-import com.renato.biblioteca.service.strategy.ValidarSeHaMulta;
-import com.renato.biblioteca.service.strategy.VerificarDisponibilidadeDoLivro;
+import com.renato.biblioteca.service.strategy.emprestimo.ValidacaoEmprestimo;
+import com.renato.biblioteca.service.strategy.emprestimo.ValidarSeHaEmprestimoAtivo;
+import com.renato.biblioteca.service.strategy.emprestimo.ValidarSeHaMulta;
+import com.renato.biblioteca.service.strategy.emprestimo.VerificarDisponibilidadeDoLivro;
 
 @Service
 public class EmprestimoService {
