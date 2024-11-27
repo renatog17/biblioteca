@@ -24,6 +24,8 @@ public class Livro {
 	private String autor;
 	@OneToMany(mappedBy = "livro")
 	private List<EstudanteLivro> emprestimos = new ArrayList<>();
+	private Integer quantidadeTotal;
+	private Integer quantidadeDisponivel;
 	
 	public Livro() {
 		super();
@@ -31,11 +33,13 @@ public class Livro {
 	}
 
 
-	public Livro(String isbn, String titulo, String autor) {
+	public Livro(String isbn, String titulo, String autor, Integer quantidade) {
 		super();
 		this.isbn = isbn;
 		this.titulo = titulo;
 		this.autor = autor;
+		this.quantidadeTotal = quantidade;
+		this.quantidadeDisponivel = quantidade;
 	}
 
 
@@ -43,6 +47,8 @@ public class Livro {
 		this.isbn = postLivroDTO.isbn();
 		this.titulo = postLivroDTO.titulo();
 		this.autor = postLivroDTO.autor();
+		this.quantidadeTotal = postLivroDTO.quantidade();
+		this.quantidadeDisponivel = postLivroDTO.quantidade();
 	}
 
 
@@ -83,6 +89,37 @@ public class Livro {
 
 	public void setAutor(String autor) {
 		this.autor = autor;
+	}
+
+	
+
+	public List<EstudanteLivro> getEmprestimos() {
+		return emprestimos;
+	}
+
+
+	public void setEmprestimos(List<EstudanteLivro> emprestimos) {
+		this.emprestimos = emprestimos;
+	}
+
+
+	public Integer getQuantidadeTotal() {
+		return quantidadeTotal;
+	}
+
+
+	public void setQuantidadeTotal(Integer quantidade) {
+		this.quantidadeTotal = quantidade;
+	}
+
+	
+	public Integer getQuantidadeDisponivel() {
+		return quantidadeDisponivel;
+	}
+
+
+	public void setQuantidadeDisponivel(Integer quantidadeDisponivel) {
+		this.quantidadeDisponivel = quantidadeDisponivel;
 	}
 
 

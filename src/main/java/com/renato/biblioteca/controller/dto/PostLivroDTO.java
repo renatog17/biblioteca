@@ -1,5 +1,6 @@
 package com.renato.biblioteca.controller.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 public record PostLivroDTO(
@@ -8,6 +9,9 @@ public record PostLivroDTO(
 		@NotNull
 		String titulo,
 		@NotNull
-		String autor) {
+		String autor,
+		@NotNull
+		@Min(value = 1)
+		Integer quantidade) {
 
 }

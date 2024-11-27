@@ -4,10 +4,12 @@ import com.renato.biblioteca.domain.Estudante;
 import com.renato.biblioteca.domain.Livro;
 
 public class VerificarDisponibilidadeDoLivro implements ValidacaoEmprestimo{
-
+	
 	@Override
 	public boolean validar(Estudante estudante, Livro livro) {
-		// TODO Auto-generated method stub
+		if(livro.getQuantidadeDisponivel()>2) {
+			return true;
+		}
 		return false;
 	}
 
