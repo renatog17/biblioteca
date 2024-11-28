@@ -1,0 +1,2 @@
+ALTER TABLE livros ADD COLUMN quantidade_total INT DEFAULT 0 NOT NULL;
+ALTER TABLE livros ADD COLUMN quantidade_disponivel INT DEFAULT 0 NOT NULL;
