@@ -27,12 +27,13 @@ public class SecurityConfigurations {
 				.csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
 				.authorizeHttpRequests(authorize -> authorize
-						.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-						.requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-						.requestMatchers("/h2-console/**").permitAll()
+//						.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+//						.requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+//						.requestMatchers("/h2-console/**").permitAll()
 //						.requestMatchers(HttpMethod.GET, "/categoria").hasRole("ADMIN")
 //						.requestMatchers(HttpMethod.GET, "/categoria/*").hasRole("ADMIN")
-						.anyRequest().authenticated()
+//						.anyRequest().authenticated()
+						.anyRequest().permitAll()
 						)
 				//a linha abaixo é necessária para que o h2 possa funcionar
 				.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()))

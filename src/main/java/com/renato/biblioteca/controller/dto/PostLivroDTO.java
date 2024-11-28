@@ -1,14 +1,15 @@
 package com.renato.biblioteca.controller.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record PostLivroDTO(
-		@NotNull
+		@NotEmpty
 		String isbn,
-		@NotNull
+		@NotEmpty
 		String titulo,
-		@NotNull
+		@NotEmpty
 		String autor,
 		@NotNull
 		@Min(value = 1)

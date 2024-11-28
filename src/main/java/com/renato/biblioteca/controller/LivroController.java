@@ -21,6 +21,7 @@ import com.renato.biblioteca.domain.Livro;
 import com.renato.biblioteca.repositories.LivroRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/livros")
@@ -35,7 +36,7 @@ public class LivroController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> postLivro(@RequestBody PostLivroDTO postLivroDTO, UriComponentsBuilder uriComponentsBuilder){
+	public ResponseEntity<?> postLivro(@RequestBody @Valid PostLivroDTO postLivroDTO, UriComponentsBuilder uriComponentsBuilder){
 		Livro livro = new Livro(postLivroDTO);
 		livroRepository.save(livro);
 		URI uri = uriComponentsBuilder.path("/livros/{id}").buildAndExpand(livro.getId()).toUri();

@@ -54,7 +54,12 @@ public class LivroControllerTest {
 		assertEquals("Livro Teste", readLivroDTO.titulo());
 		assertEquals(1, readLivroDTO.id());
 		assertEquals("Autor Teste", readLivroDTO.autor());
-		
 		verify(livroRepository, times(1)).save(any(Livro.class));
+	}
+	
+	@Test
+	@DisplayName("Deve retornar erros de validações")
+	public void postLivro_deveRetornarErrosDevalidacao() {
+		
 	}
 }
