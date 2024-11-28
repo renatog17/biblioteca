@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import com.renato.biblioteca.controller.dto.PostLivroDTO;
 import com.renato.biblioteca.controller.dto.PutLivroDTO;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +23,7 @@ public class Livro {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String isbn;
+	@Column(unique = true)
 	private String titulo;
 	private String autor;
 	@OneToMany(mappedBy = "livro")

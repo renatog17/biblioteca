@@ -57,10 +57,7 @@ public class LivroControllerTest {
 		verify(livroRepository, times(1)).save(any(Livro.class));
 	}
 	
-	@Test
-	@DisplayName("Deve retornar erros de validações")
-	public void postLivro_deveRetornarErrosDevalidacao() {
-		//arrange
-		
-	}
+	//eu sei que meu endpoint vai lançar uma excessão quando um título for duplicado
+	//será que basta eu fazer apenas um doThrow?
+	
 }

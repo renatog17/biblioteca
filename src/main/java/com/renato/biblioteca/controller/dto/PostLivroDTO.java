@@ -5,14 +5,13 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record PostLivroDTO(
-		@NotEmpty
+		@NotEmpty(message = "O título não pode ser nulo ou vazio.")
 		String isbn,
-		@NotEmpty
+		@NotEmpty(message = "O título não pode ser nulo ou vazio.")
 		String titulo,
-		@NotEmpty
+		@NotEmpty(message = "O autor não pode ser nulo ou vazio.")
 		String autor,
-		@NotNull
-		@Min(value = 1)
+		@NotNull(message = "A quantidade não pode ser nula.")
+		@Min(value = 1, message = "A quantidade deve ser maior ou igual a 1.")
 		Integer quantidade) {
-
 }
