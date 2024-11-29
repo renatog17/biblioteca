@@ -66,4 +66,29 @@ public class LivroValidationTest {
             }
         }
 	}
+	
+	@Test
+	@DisplayName("Deve retornar erros de validações quando todos os campos forem null")
+	public void putLivro_deveRetornarErrosDevalidacaoQuandoTodosOsCamposForemNull() {
+		//arrange
+		PostLivroDTOBuilder postLivroDTOBuilder = new PostLivroDTOBuilder();
+		PostLivroDTO postLivroDTO = postLivroDTOBuilder
+				.withAutorNull().withIsbnNull().withQuantidadeNull().withTituloNull().build();
+		//test validation
+		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+		Set<ConstraintViolation<PostLivroDTO>> violations = validator.validate(postLivroDTO);
+		//assert
+		assertEquals(4, violations.size());
+		for (ConstraintViolation<PostLivroDTO> violation : violations) {
+            if (violation.getPropertyPath().toString().equals("isbn")) {
+                assertEquals("O título não pode ser nulo ou vazio.", violation.getMessage());
+            } else if (violation.getPropertyPath().toString().equals("titulo")) {
+                assertEquals("O título não pode ser nulo ou vazio.", violation.getMessage());
+            } else if (violation.getPropertyPath().toString().equals("autor")) {
+                assertEquals("O autor não pode ser nulo ou vazio.", violation.getMessage());
+            } else if (violation.getPropertyPath().toString().equals("quantidade")) {
+                assertEquals("A quantidade não pode ser nula.", violation.getMessage());
+            }
+        }
+	}
 }

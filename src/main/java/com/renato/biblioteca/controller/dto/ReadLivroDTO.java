@@ -6,10 +6,11 @@ public record ReadLivroDTO(
 		Long id,
 		String isbn,
 		String titulo,
-		String autor) {
+		String autor,
+		Integer quantidadeTotal) {
 
 	public ReadLivroDTO( Livro livro ) {
-		this(livro.getId(), livro.getIsbn(), livro.getTitulo(), livro.getAutor());
+		this(livro.getId(), livro.getIsbn(), livro.getTitulo(), livro.getAutor(), livro.getQuantidadeTotal());
 	}
 
 }
