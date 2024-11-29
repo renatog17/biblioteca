@@ -157,8 +157,9 @@ public class Livro {
 			this.autor = putLivroDTO.autor();
 		if(putLivroDTO.titulo()!=null)
 			this.titulo = putLivroDTO.titulo();
-		if(putLivroDTO.isbn()!=null)
-			this.isbn = putLivroDTO.isbn();
+		if(putLivroDTO.quantidade()!=null) {
+			this.quantidadeTotal = putLivroDTO.quantidade();
+		}
 	}
 	
 	

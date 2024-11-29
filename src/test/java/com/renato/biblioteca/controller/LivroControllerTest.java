@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.renato.biblioteca.controller.dto.PostLivroDTO;
+import com.renato.biblioteca.controller.dto.PutLivroDTO;
 import com.renato.biblioteca.controller.dto.ReadLivroDTO;
 import com.renato.biblioteca.domain.Livro;
 import com.renato.biblioteca.repositories.LivroRepository;
@@ -37,6 +38,9 @@ public class LivroControllerTest {
 	
 	@Mock
 	private LivroRepository livroRepository;
+	
+	@Mock
+	private Livro livroMock;
 	
 	@Test
 	@DisplayName("Deve criar um livro com sucesso")
@@ -118,11 +122,75 @@ public class LivroControllerTest {
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 		verify(livroRepository, times(1)).findById(anyLong());
 	}
+	//fazer os puts
 	
+	@Test
+	@DisplayName("Deve atualizar os dados de um livro")
+	public void putLivro_deveAtualizarLivro() {
+		//arrange
+		PutLivroDTO putLivroDTO = new PutLivroDTO("Título novo", "Autor novo", 15);
+		Long id = 1L;
+		Optional<Livro> optionalLivro = Optional.of(new Livro("123", "Título antigo", "Autor antigo", 20));
+		optionalLivro.get().setId(1L);
+		//mock
+		when(livroRepository.findById(id)).thenReturn(optionalLivro);
+		doAnswer(invocation ->{
+			PutLivroDTO argument = invocation.getArgument(0);
+			Livro livro = optionalLivro.get();
+			livro.setAutor(argument.autor());
+			livro.setQuantidadeTotal(argument.quantidade());
+			livro.setTitulo(argument.titulo());
+			return null;
+		}).when(livroMock).atualizar(any(PutLivroDTO.class));
+		//act
+		ResponseEntity<?> response = livroController.putLivro(id, putLivroDTO);
+		ReadLivroDTO readLivroDTO =  (ReadLivroDTO) response.getBody();
+		//assert
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals("Título novo", readLivroDTO.titulo());
+		assertEquals("Autor novo", readLivroDTO.autor());
+		assertEquals(15, readLivroDTO.quantidadeTotal());
+		verify(livroRepository, times(1)).findById(anyLong());
+	}
+	
+	@Test
+	@DisplayName("Deve obter o status code 404 quando tentar atualizar um livro que o id não exista")
+	public void putLivro_deveRetornarErro404IdNaoEncontrado() {
+		//arrange
+		Optional<Livro> optionalLivro = Optional.empty();
+		PutLivroDTO putLivroDTO = new PutLivroDTO("Teste", "Teste", 123);
+		//mock
+		when(livroRepository.findById(anyLong())).thenReturn(optionalLivro);
+		//act
+		ResponseEntity<?> response = livroController.putLivro(anyLong(), putLivroDTO);
+		//assert
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		verify(livroRepository, times(1)).findById(anyLong());
+	}
+	
+	@Test
+	@DisplayName("Deve deletar o livro com sucesso")
 	public void deleteLivro_deveDeletarLivro() {
-		
+		//arrange
+		Optional<Livro> optionalLivro = Optional.of(new Livro("123", "123", "123", 123));
+		optionalLivro.get().setId(1L);
+		//mock
+		when(livroRepository.findById(anyLong())).thenReturn(optionalLivro);
+		//act
+		ResponseEntity<?> response = livroController.deleteLivro(1L);
+		//assert
+		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		verify(livroRepository, times(1)).findById(anyLong());
 	}
 	public void deleteLivro_deveRetornarErro404() {
-		
+		//arrange
+		Optional<Livro> optionalLivro = Optional.empty();
+		//mock
+		when(livroRepository.findById(anyLong())).thenReturn(optionalLivro);
+		//act
+		ResponseEntity<?> response = livroController.deleteLivro(1L);
+		//assert
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		verify(livroRepository, times(1)).findById(anyLong());	
 	}
 }

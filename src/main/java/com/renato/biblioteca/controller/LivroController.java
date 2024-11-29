@@ -53,6 +53,8 @@ public class LivroController {
 	}
 	
 	@PutMapping("/{id}")
+	@Transactional
+	//to-do: alterar a quantidade disponível tbm
 	public ResponseEntity<?> putLivro(@PathVariable Long id, @RequestBody PutLivroDTO putLivroDTO){
 		Optional<Livro> optionalLivro = livroRepository.findById(id);
 		if(optionalLivro.isEmpty()) {
