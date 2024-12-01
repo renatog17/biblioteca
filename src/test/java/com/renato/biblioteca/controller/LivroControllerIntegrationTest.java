@@ -1,5 +1,6 @@
 package com.renato.biblioteca.controller;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,5 +38,33 @@ public class LivroControllerIntegrationTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/livros").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(postLivroDTO)))
 				.andExpect(MockMvcResultMatchers.status().isCreated());	
+	}
+	@Test
+	public void postLivro_DeveRetornarErroDeValidacaoCamposNulo() throws JsonProcessingException, Exception {
+		//arrange
+		PostLivroDTO postLivroDTO = new PostLivroDTO(null, null, null, null);
+		//act
+		mockMvc.perform(MockMvcRequestBuilders.post("/livros").contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(postLivroDTO)))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+	            .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(4))) // Verifica 4 erros no array
+	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'autor')].mensagem").value("O autor não pode ser nulo ou vazio."))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'quantidade')].mensagem").value("A quantidade não pode ser nula."))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'isbn')].mensagem").value("O título não pode ser nulo ou vazio."))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'titulo')].mensagem").value("O título não pode ser nulo ou vazio."));
+	}
+	@Test
+	public void postLivro_DeveRetornarErroDeValidacaoCamposEmpty() throws JsonProcessingException, Exception {
+		//arrange
+		PostLivroDTO postLivroDTO = new PostLivroDTO("", "", "", null);
+		//act
+		mockMvc.perform(MockMvcRequestBuilders.post("/livros").contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(postLivroDTO)))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+	            .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(4))) // Verifica 4 erros no array
+	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'autor')].mensagem").value("O autor não pode ser nulo ou vazio."))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'quantidade')].mensagem").value("A quantidade não pode ser nula."))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'isbn')].mensagem").value("O título não pode ser nulo ou vazio."))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'titulo')].mensagem").value("O título não pode ser nulo ou vazio."));
 	}
 }
