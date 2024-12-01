@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.renato.biblioteca.controller.dto.PostLivroDTO;
+import com.renato.biblioteca.domain.Livro;
+import com.renato.biblioteca.repositories.LivroRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -29,6 +31,8 @@ public class LivroControllerIntegrationTest {
 	private MockMvc mockMvc;
 	@Autowired
 	private ObjectMapper objectMapper;
+	@Autowired
+	private LivroRepository livroRepository;
 	
 	@Test
 	public void postLivro_sucesso() throws JsonProcessingException, Exception {
@@ -66,5 +70,25 @@ public class LivroControllerIntegrationTest {
 	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'quantidade')].mensagem").value("A quantidade não pode ser nula."))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'isbn')].mensagem").value("O título não pode ser nulo ou vazio."))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$[?(@.campo == 'titulo')].mensagem").value("O título não pode ser nulo ou vazio."));
+	}
+	@Test
+	public void getLivro_deveRetornarUmDTOLivroPeloIdDado() throws Exception {
+		//arrange
+		Livro livro = new Livro("123", "123", "123", 123);
+		Livro save = livroRepository.save(livro);
+		//act
+		mockMvc.perform(MockMvcRequestBuilders.get("/livros/"+save.getId()))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(save.getId()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("123"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.titulo").value("123"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.autor").value("123"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.quantidadeTotal").value(123));
+	}
+	@Test
+	public void getLivro_deveRetornarErro404() throws Exception {
+		//act
+		mockMvc.perform(MockMvcRequestBuilders.get("/livros/"+1))
+				.andExpect(MockMvcResultMatchers.status().isNotFound());
 	}
 }
