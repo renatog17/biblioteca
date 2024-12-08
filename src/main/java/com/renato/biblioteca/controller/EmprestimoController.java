@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.renato.biblioteca.controller.dto.PostEmprestimoDTO;
+import com.renato.biblioteca.controller.dto.DadosEmprestimoDTO;
 import com.renato.biblioteca.controller.dto.ReadEmprestimoDTO;
 import com.renato.biblioteca.domain.Estudante;
 import com.renato.biblioteca.domain.EstudanteLivro;
@@ -37,8 +37,8 @@ public class EmprestimoController {
 
 	// antes de tudo, tem que ser verificado se há um emprestimo ativo
 
-	@PostMapping
-	public ResponseEntity<?> realizarEmprestimo(@RequestBody PostEmprestimoDTO emprestimoDTO) {
+	@PostMapping("/emprestimo")
+	public ResponseEntity<?> realizarEmprestimo(@RequestBody DadosEmprestimoDTO emprestimoDTO) {
 
 		Optional<Estudante> optionalEstudante = estudanteRepository.findById(emprestimoDTO.idEstudante());
 		Optional<Livro> optionalLivro = livroRepository.findById(emprestimoDTO.idLivro());
@@ -56,9 +56,9 @@ public class EmprestimoController {
 		return ResponseEntity.ok(new ReadEmprestimoDTO(estudanteLivro));
 	}
 
-	@PostMapping("/devolucao/{id}")
-	public ResponseEntity<?> realizarDevolucao(@PathVariable Long id) {
-		Optional<EstudanteLivro> optionalEstudanteLivro = estudanteLivroRepository.findById(id);
+	@PostMapping("/devolucao")
+	public ResponseEntity<?> realizarDevolucao(@RequestBody DadosEmprestimoDTO emprestimoDTO) {
+		Optional<EstudanteLivro> optionalEstudanteLivro = estudanteLivroRepository.findById(emprestimoDTO.idEstudante());
 		if (optionalEstudanteLivro.isEmpty())
 			return ResponseEntity.notFound().build();
 		EstudanteLivro estudanteLivro = optionalEstudanteLivro.get();

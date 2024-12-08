@@ -91,4 +91,10 @@ public class LivroControllerIntegrationTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/livros/"+1))
 				.andExpect(MockMvcResultMatchers.status().isNotFound());
 	}
+	//put id não encontrado
+	//put id inválido
+	//put erro de validação
+	//put happy path
+	//delete id não encontrado
+	//delete happy path
 }
